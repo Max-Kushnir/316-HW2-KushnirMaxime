@@ -9,6 +9,21 @@ export default class SongCard extends React.Component {
             draggedTo: false
         }
     }
+
+    // handle doubleclicks
+    handleClick = (event) => {
+        if (event.detail === 2) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.handleEditSong();
+        }
+    }
+
+    handleEditSong = () => {
+        const songIndex = parseInt(this.getItemNum()) - 1;
+        this.props.editSongCallback(songIndex, this.props.song);
+    }
+
     handleDragStart = (event) => {
         event.dataTransfer.setData("song", event.target.id);
         this.setState(prevState => ({
@@ -16,6 +31,7 @@ export default class SongCard extends React.Component {
             draggedTo: prevState.draggedTo
         }));
     }
+
     handleDragOver = (event) => {
         event.preventDefault();
         this.setState(prevState => ({
@@ -23,6 +39,7 @@ export default class SongCard extends React.Component {
             draggedTo: true
         }));
     }
+
     handleDragEnter = (event) => {
         event.preventDefault();
         this.setState(prevState => ({
@@ -30,6 +47,7 @@ export default class SongCard extends React.Component {
             draggedTo: true
         }));
     }
+
     handleDragLeave = (event) => {
         event.preventDefault();
         this.setState(prevState => ({
@@ -37,6 +55,7 @@ export default class SongCard extends React.Component {
             draggedTo: false
         }));
     }
+
     handleDrop = (event) => {
         event.preventDefault();
         let target = event.target;
@@ -70,6 +89,7 @@ export default class SongCard extends React.Component {
             <div
                 id={'song-' + num}
                 className={itemClass}
+                onClick={this.handleClick}
                 onDragStart={this.handleDragStart}
                 onDragOver={this.handleDragOver}
                 onDragEnter={this.handleDragEnter}

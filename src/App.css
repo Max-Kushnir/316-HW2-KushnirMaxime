@@ -303,8 +303,8 @@ input {
 
 .modal-root {
   position: relative;
-  max-width: 1000px;
-  max-height: 500px;
+  max-width: 1200px;
+  max-height: 600px;
   overflow: visible;
   display: flex;
   flex-direction: column;
@@ -314,6 +314,12 @@ input {
   border-color: black;
   border-style: solid;
   box-shadow: 5px 10px #888888;
+}
+
+#edit-song-modal .modal-root {
+  max-width: 1200px; 
+  max-height: 600px;
+  min-width: 800px;  
 }
 
 .modal-root > * {
@@ -330,9 +336,18 @@ input {
 .modal-center {
   display: grid;
   grid-template-columns: 30% 65%;
-  grid-template-rows: 33% 33% 33%;
-  gap: 10px 20px;
-  font-size: 36pt;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 15px 20px;
+  font-size: 24pt; 
+  align-items: center;
+}
+
+#edit-song-modal .modal-center {
+  grid-template-columns: 25% 70%; 
+  grid-template-rows: repeat(4, auto);
+  gap: 15px px;
+  padding: 20px;
+  align-items: center;
 }
 
 span {
@@ -350,20 +365,20 @@ span {
 
 .modal-center-content {
   grid-column: 1 / 3;
-  grid-row: 1 / 4;
+  grid-row: 1 / 2;
 }
 
 .modal-prompt {  
-  font-size:28pt;
+  font-size:24pt;
   font-weight: bold;
 }
 
 .modal-textfield {
-  font-size:28pt;
+  font-size:30pt;
 }
 
 .modal-button {
-  font-size: 20pt;
+  font-size: 30;
 }
 
 #title-prompt {
