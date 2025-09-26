@@ -1,15 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
-  /* 
-        FIRST WE'LL DEFINE OUR SWATCHES, i.e. THE COMPLEMENTARY
-        COLORS THAT WE'LL USE TOGETHER IN MULTIPLE PLACES THAT
-        TOGETHER WILL MAKE UP A GIVEN THEME
-    */
   --swatch-foundation: #eeeedd; 
   --swatch-primary: #e6e6e6; 
   --swatch-complement: #e1e4cb;
   --swatch-contrast: #111111; 
   --swatch-accent: #669966; 
   --swatch-status: #123456;
+  --swatch-link-emphasis: #b88320;
+  --swatch-link-contrast: lightgreen;
+  --swatch-link-hover: pink;
+  --swatch-link-active: magenta;
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
 
@@ -19,7 +20,7 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: serif;
+  font-family: 'Inter', sans-serif;
   position: absolute;
   width: 80%;
   left: 10%;
@@ -47,7 +48,7 @@ body {
   background-image: linear-gradient(to bottom,         
   #b8b808, #636723);
   color: white;
-  font-size: 54pt;
+  font-size: 44pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
@@ -58,7 +59,7 @@ body {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   text-align:center;
-  font-size: 36pt;
+  font-size: 30pt;
   font-weight: bold;
   display:flex;
   flex-direction: row;
@@ -100,7 +101,7 @@ body {
   background-color: #FFA07A;
   color: black;
   text-align: center;
-  font-size: 38pt;
+  font-size: 40pt;
   padding-top: 4px;
 }
 
@@ -109,7 +110,7 @@ body {
 }
 
 .playlist-card, .selected-playlist-card, .unselected-playlist-card {
-  font-size: 18pt;
+  font-size: 16pt;
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
@@ -148,17 +149,133 @@ body {
   cursor: not-allowed;
 }
 
-.song-card, .song-card-dragged-to { 
-  display:flex;
-  align-items: center;
-  font-size: 24pt;
-  height:20%;
-}
-
 input {
   font-size:20pt;
 }
 
+/* SONG CARD STYLING */
+.song-card, .selected-song-card, .unselected-song-card {
+  font-size: 25pt;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 125px;
+}
+
+.song-card, .song-card-dragged-to {
+  background-color: var(--swatch-complement);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.selected-song-card {
+  background-color: var(--swatch-accent);
+  color: var(--swatch-contrast);
+}
+
+.unselected-song-card {
+  background-color: var(--swatch-complement);
+}
+
+.unselected-song-card:hover {
+  cursor: pointer;
+}
+
+.song-card:hover, .unselected-song-card:hover {
+  background-color: var(--swatch-contrast);
+  color: white;
+}
+
+.song-card-dragged-to {
+  background-color: var(--swatch-accent);
+  color: white;
+  border: 2px solid var(--swatch-contrast);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.song-card.is-dragging {
+  border: 2px black solid;
+  opacity: 0.5;
+}
+
+.song-card-number {
+  font-size: 15pt;
+  font-weight: bold;
+  margin-right: 5px;
+  min-width: 0px;
+}
+
+.song-card-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  font-size: 16pt;
+}
+
+.song-card-button {
+  float:right;
+  font-size:24pt;
+  width: 48px;    
+  height: 48px; 
+}
+
+.song-card,
+.song-card .song-card-title {
+  text-decoration: none;
+}
+
+.song-card .song-card-title {
+  color: var(--swatch-link-emphasis);
+}
+
+.song-card:hover .song-card-title {
+  color: var(--swatch-link-contrast);
+}
+
+.song-card:hover .song-card-title:hover {
+  color: var(--swatch-link-hover);
+}
+
+.song-card-title:active {
+  color: var(--swatch-link-active);
+}
+
+.song-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.song-card-by {
+  color: black;
+}
+
+.song-card-artist {
+  color: red;
+}
+
+.song-card-year {
+  color: black;
+}
+
+.song-card:hover .song-card-number,
+.song-card:hover .song-card-year,
+.song-card:hover .song-card-by {
+  color: white;
+}
+
+.toolbar-button {
+  font-size:36pt;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  box-shadow: 2px 4px #888888;
+  border-radius: 5px;
+}
+
+.toolbar-button.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 
 /* THIS STYLE SHEET MANAGES STYLE FOR OUR MODAL, i.e. DIALOG BOX */
 
@@ -186,8 +303,8 @@ input {
 
 .modal-root {
   position: relative;
-  max-width: 1200vw;
-  max-height: 600vh;
+  max-width: 1000px;
+  max-height: 500px;
   overflow: visible;
   display: flex;
   flex-direction: column;
@@ -215,7 +332,7 @@ input {
   grid-template-columns: 30% 65%;
   grid-template-rows: 33% 33% 33%;
   gap: 10px 20px;
-  font-size: 48pt;
+  font-size: 36pt;
 }
 
 span {
