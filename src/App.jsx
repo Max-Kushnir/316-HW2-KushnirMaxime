@@ -308,7 +308,19 @@ class App extends React.Component {
         let transaction = new AddSong_Transaction(this, insertIndex, songToDuplicate);
         this.tps.processTransaction(transaction);
     }
-    
+    // ADD A NEW GENERIC SONG
+    addSong = () => {
+       let list = this.state.currentList;
+       let newSong = {
+           title: "Untitled",
+           artist: "???",
+           year: 2000,
+           youTubeId: "dQw4w9WgXcQ"
+       };
+       let insertIndex = list.songs.length; // Add at the end
+       let transaction = new AddSong_Transaction(this, insertIndex, newSong);
+       this.tps.processTransaction(transaction);
+    }
     // THIS FUNCTION BEGINS THE PROCESS OF PERFORMING AN UNDO
     undo = () => {
         if (this.tps.hasTransactionToUndo()) {
@@ -411,6 +423,7 @@ class App extends React.Component {
                     canUndo={canUndo}
                     canRedo={canRedo}
                     canClose={canClose} 
+                    addSongCallback={this.addSong}
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
