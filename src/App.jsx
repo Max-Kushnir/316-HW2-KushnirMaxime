@@ -153,6 +153,8 @@ class App extends React.Component {
         });
     }
     duplicateList = (keyPair) => {
+        this.tps.clearAllTransactions();
+
         // get the original lsit
         let originalList = this.db.queryGetList(keyPair.key);
         
@@ -187,9 +189,6 @@ class App extends React.Component {
 
             // store session data
             this.db.mutationUpdateSessionData(this.state.sessionData);
-
-            // clear stack
-            this.tps.clearAllTransactions();
         });
     }
     deleteMarkedList = () => {
@@ -237,28 +236,25 @@ class App extends React.Component {
     }
     // THIS FUNCTION BEGINS THE PROCESS OF LOADING A LIST FOR EDITING
     loadList = (key) => {
+        // CLEAR TRANSACTION STACK FIRST
+        this.tps.clearAllTransactions();
+        
         let newCurrentList = this.db.queryGetList(key);
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
             currentList: newCurrentList,
             sessionData: this.state.sessionData
-        }), () => {
-            // AN AFTER EFFECT IS THAT WE NEED TO MAKE SURE
-            // THE TRANSACTION STACK IS CLEARED
-            this.tps.clearAllTransactions();
-        });
+        }));
     }
     // THIS FUNCTION BEGINS THE PROCESS OF CLOSING THE CURRENT LIST
     closeCurrentList = () => {
+        this.tps.clearAllTransactions();
+        
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
             currentList: null,
             sessionData: this.state.sessionData
-        }), () => {
-            // AN AFTER EFFECT IS THAT WE NEED TO MAKE SURE
-            // THE TRANSACTION STACK IS CLEARED
-            this.tps.clearAllTransactions();
-        });
+        }));
     }
     setStateWithUpdatedList(list) {
         this.setState(prevState => ({
