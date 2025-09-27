@@ -9,7 +9,7 @@ import { jsTPS } from 'jstps';
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 import EditSong_Transaction from './transactions/EditSong_Transaction.js';
 import DeleteSong_Transaction from './transactions/DeleteSong_Transaction.js';
-
+import AddSong_Transaction from './transactions/AddSong_Transaction.js';
 
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.jsx';
@@ -300,6 +300,15 @@ class App extends React.Component {
         list.songs.splice(songIndex, 0, song);
         this.setStateWithUpdatedList(list);
     }
+    // NEW METHODS FOR DUPLICATING SONGS
+    duplicateSong = (songIndex) => {
+        let list = this.state.currentList;
+        let songToDuplicate = { ...list.songs[songIndex] }; // Create a copy
+        let insertIndex = songIndex + 1; // Insert right after the original
+        let transaction = new AddSong_Transaction(this, insertIndex, songToDuplicate);
+        this.tps.processTransaction(transaction);
+    }
+    
     // THIS FUNCTION BEGINS THE PROCESS OF PERFORMING AN UNDO
     undo = () => {
         if (this.tps.hasTransactionToUndo()) {
@@ -410,7 +419,8 @@ class App extends React.Component {
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction} 
                     editSongCallback={this.markSongForEditing}
-                    deleteSongCallback={this.addDeleteSongTransaction} />
+                    deleteSongCallback={this.addDeleteSongTransaction}
+                    duplicateSongCallback={this.duplicateSong} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal

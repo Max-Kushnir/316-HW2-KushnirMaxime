@@ -114,8 +114,8 @@ body {
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
-  position: relative; /* Added for absolute positioning of buttons */
-  padding-right: 110px; /* Make room for buttons */
+  position: relative; 
+  padding-right: 110px; 
 }
 
 .unselected-playlist-card:hover {
@@ -135,16 +135,16 @@ body {
 
 .playlist-card-buttons {
   position: absolute;
-  right: 10px; /* Position to the right edge */
+  right: 10px;
   top: 50%;
-  transform: translateY(-50%); /* Center vertically (negative to go up) */
+  transform: translateY(-50%);
   display: flex;
   gap: 5px;
 }
 
 .card-button, .card-button-disabled {
   font-size: 18pt;
-  width: 36px; /* Made consistent with song card buttons */
+  width: 36px;
   height: 48px;
   border: 1px solid black;
   border-radius: 4px;
@@ -154,7 +154,6 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0; /* Removed since we use gap in flex container */
 }
 
 .card-button:hover {
@@ -183,6 +182,7 @@ input {
   background-color: var(--swatch-complement);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   cursor: pointer;
 }
 
@@ -230,11 +230,27 @@ input {
   font-size: 16pt;
 }
 
+.song-card-buttons {
+  display: flex;
+  gap: 5px;
+}
+
 .song-card-button {
-  float:right;
-  font-size:24pt;
+  font-size: 18pt;
   width: 36px;    
-  height: 48px; 
+  height: 48px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.song-card-button:hover {
+  background-color: #f0f0f0;
 }
 
 .song-card,
@@ -397,15 +413,12 @@ span {
 
 .modal-button {
   font-size: 30;
+  margin:5px;
 }
 
 #title-prompt {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-}
-
-.modal-button {
-  margin:5px;
 }
 
 .modal p + p {
