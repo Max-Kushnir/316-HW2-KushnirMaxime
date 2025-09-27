@@ -330,6 +330,17 @@ input {
   transition: all 0.35s ease-in;
 }
 
+#delete-list-modal .modal-root {
+  max-height: 300px;
+  min-height: 250px;
+}
+
+#delete-list-modal .modal-center {
+  grid-template-rows: 1fr;
+  padding: 20px;
+  font-size: 36px;
+}
+
 .modal.is-visible {
   visibility: visible;
   opacity: 1;
