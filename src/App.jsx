@@ -153,27 +153,26 @@ class App extends React.Component {
         });
     }
     duplicateList = (keyPair) => {
-        // GET THE ORIGINAL LIST
+        // get the original lsit
         let originalList = this.db.queryGetList(keyPair.key);
         
-        // FIGURE OUT WHAT THE NEW LIST'S KEY AND NAME WILL BE
+        // figure out the new lists key and name
         let newKey = this.state.sessionData.nextKey;
         let newName = originalList.name + "(Copy)";
 
-        // MAKE A DEEP COPY OF THE LIST
+        // deep copy the list
         let duplicatedList = {
             key: newKey,
             name: newName,
             songs: originalList.songs.map(song => ({ ...song })) // Deep copy each song
         };
 
-        // MAKE THE KEY,NAME OBJECT SO WE CAN KEEP IT IN OUR
-        // SESSION DATA SO IT WILL BE IN OUR LIST OF LISTS
+        // make the pair object
         let newKeyNamePair = { "key": newKey, "name": newName };
         let updatedPairs = [...this.state.sessionData.keyNamePairs, newKeyNamePair];
         this.sortKeyNamePairsByName(updatedPairs);
 
-        // UPDATE THE APP STATE
+        // update the state of the app
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
             currentList: duplicatedList, // Load the duplicated list
@@ -183,14 +182,13 @@ class App extends React.Component {
                 keyNamePairs: updatedPairs
             }
         }), () => {
-            // PUTTING THIS NEW LIST IN PERMANENT STORAGE
-            // IS AN AFTER EFFECT
+            // put in perma storage
             this.db.mutationCreateList(duplicatedList);
 
-            // SO IS STORING OUR SESSION DATA
+            // store session data
             this.db.mutationUpdateSessionData(this.state.sessionData);
 
-            // CLEAR TRANSACTION STACK SINCE WE'RE LOADING A NEW LIST
+            // clear stack
             this.tps.clearAllTransactions();
         });
     }
@@ -321,7 +319,7 @@ class App extends React.Component {
         list.songs.splice(songIndex, 0, song);
         this.setStateWithUpdatedList(list);
     }
-    // NEW METHODS FOR DUPLICATING SONGS
+    // duplicate song
     duplicateSong = (songIndex) => {
         let list = this.state.currentList;
         let songToDuplicate = { ...list.songs[songIndex] }; // Create a copy
@@ -329,7 +327,7 @@ class App extends React.Component {
         let transaction = new AddSong_Transaction(this, insertIndex, songToDuplicate);
         this.tps.processTransaction(transaction);
     }
-    // ADD A NEW GENERIC SONG
+    // new default song
     addSong = () => {
        let list = this.state.currentList;
        let newSong = {
