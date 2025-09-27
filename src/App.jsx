@@ -46,6 +46,27 @@ class App extends React.Component {
             
         }
     }
+
+    componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (event) => {
+        if (event.ctrlKey && this.state.currentList) {
+            if (event.key === 'z' || event.key === 'Z') {
+                event.preventDefault();
+                this.undo();
+            } else if (event.key === 'y' || event.key === 'Y') {
+                event.preventDefault();
+                this.redo();
+            }
+        }
+    }
+
     sortKeyNamePairsByName = (keyNamePairs) => {
         keyNamePairs.sort((keyPair1, keyPair2) => {
             // GET THE LISTS
