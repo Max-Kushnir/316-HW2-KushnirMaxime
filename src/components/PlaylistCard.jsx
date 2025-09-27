@@ -28,6 +28,10 @@ export default class PlaylistCard extends React.Component {
         event.stopPropagation();
         this.props.deleteListCallback(this.props.keyNamePair);
     }
+    handleDuplicateList = (event) => {
+        event.stopPropagation();
+        this.props.duplicateListCallback(this.props.keyNamePair);
+    }
     handleToggleEdit = (event) => {
         this.setState({
             editActive: !this.state.editActive
@@ -73,21 +77,31 @@ export default class PlaylistCard extends React.Component {
             return (
                 <div
                     id={keyNamePair.key}
-                    key={keyNamePair.key}
                     onClick={this.handleClick}
                     className={'playlist-card ' + selectClass}>
                     <span
                         id={"playlist-card-text-" + keyNamePair.key}
-                        key={keyNamePair.key}
                         className="playlist-card-text">
                         {keyNamePair.name}
                     </span>
-                    <input
-                        type="button"
-                        id={"delete-list-" + keyNamePair.key}
-                        className="card-button"
-                        onClick={this.handleDeleteList}
-                        value={"🗑"} />
+                    <div
+                        id={"playlist-card-buttons-" + keyNamePair.key}
+                        className="playlist-card-buttons">
+                        <input
+                            type="button"
+                            id={"delete-list-" + keyNamePair.key}
+                            className="card-button"
+                            onClick={this.handleDeleteList}
+                            value={"🗑"} 
+                        />
+                        <input
+                            type="button"
+                            id={"duplicate-list-" + keyNamePair.key}
+                            className="card-button"
+                            onClick={this.handleDuplicateList}
+                            value={"⎘"}
+                        />
+                    </div>
                 </div>
             );
         }

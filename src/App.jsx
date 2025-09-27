@@ -131,6 +131,48 @@ class App extends React.Component {
             this.db.mutationUpdateSessionData(this.state.sessionData);
         });
     }
+    duplicateList = (keyPair) => {
+        // GET THE ORIGINAL LIST
+        let originalList = this.db.queryGetList(keyPair.key);
+        
+        // FIGURE OUT WHAT THE NEW LIST'S KEY AND NAME WILL BE
+        let newKey = this.state.sessionData.nextKey;
+        let newName = originalList.name + "(Copy)";
+
+        // MAKE A DEEP COPY OF THE LIST
+        let duplicatedList = {
+            key: newKey,
+            name: newName,
+            songs: originalList.songs.map(song => ({ ...song })) // Deep copy each song
+        };
+
+        // MAKE THE KEY,NAME OBJECT SO WE CAN KEEP IT IN OUR
+        // SESSION DATA SO IT WILL BE IN OUR LIST OF LISTS
+        let newKeyNamePair = { "key": newKey, "name": newName };
+        let updatedPairs = [...this.state.sessionData.keyNamePairs, newKeyNamePair];
+        this.sortKeyNamePairsByName(updatedPairs);
+
+        // UPDATE THE APP STATE
+        this.setState(prevState => ({
+            listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
+            currentList: duplicatedList, // Load the duplicated list
+            sessionData: {
+                nextKey: prevState.sessionData.nextKey + 1,
+                counter: prevState.sessionData.counter + 1,
+                keyNamePairs: updatedPairs
+            }
+        }), () => {
+            // PUTTING THIS NEW LIST IN PERMANENT STORAGE
+            // IS AN AFTER EFFECT
+            this.db.mutationCreateList(duplicatedList);
+
+            // SO IS STORING OUR SESSION DATA
+            this.db.mutationUpdateSessionData(this.state.sessionData);
+
+            // CLEAR TRANSACTION STACK SINCE WE'RE LOADING A NEW LIST
+            this.tps.clearAllTransactions();
+        });
+    }
     deleteMarkedList = () => {
         this.deleteList(this.state.listKeyPairMarkedForDeletion.key);
         this.hideDeleteListModal();
@@ -353,6 +395,7 @@ class App extends React.Component {
                     deleteListCallback={this.markListForDeletion}
                     loadListCallback={this.loadList}
                     renameListCallback={this.renameList}
+                    duplicateListCallback={this.duplicateList}
                 />
                 <EditToolbar
                     canAddSong={canAddSong}

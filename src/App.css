@@ -110,10 +110,12 @@ body {
 }
 
 .playlist-card, .selected-playlist-card, .unselected-playlist-card {
-  font-size: 16pt;
+  font-size: 12pt;
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
+  position: relative; /* Added for absolute positioning of buttons */
+  padding-right: 110px; /* Make room for buttons */
 }
 
 .unselected-playlist-card:hover {
@@ -131,17 +133,33 @@ body {
   background-color: var(--swatch-complement);
 }
 
+.playlist-card-buttons {
+  position: absolute;
+  right: 10px; /* Position to the right edge */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically (negative to go up) */
+  display: flex;
+  gap: 5px;
+}
+
 .card-button, .card-button-disabled {
-  font-size:18pt;
-  border-width: 0px;
-  float:right;
+  font-size: 18pt;
+  width: 36px; /* Made consistent with song card buttons */
+  height: 48px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: white;
   color: black;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0; /* Removed since we use gap in flex container */
 }
 
 .card-button:hover {
   cursor: pointer;
-  color:black;
+  background-color: #f0f0f0;
 }
 
 .card-button-disabled {
